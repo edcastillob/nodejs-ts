@@ -4,7 +4,10 @@
   "description": "Desarrollo backend Node JS con TypeScript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node dist/server.js",
+    "start:dev": ""
+    
   },
   "author": "Edwar Castillo Full stack developer",
   "license": "ISC",
