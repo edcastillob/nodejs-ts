@@ -1,4 +1,6 @@
 import * as dotenv from 'dotenv';
+import { ConnectionOptions } from 'typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'; 
 
 export abstract class ConfigServer{
     constructor(){
@@ -28,5 +30,21 @@ export abstract class ConfigServer{
             arrEnv.unshift(...stringToArr)
         }
         return `.${arrEnv.join('.')}`
+    }
+
+    public get typeORMConfig(): ConnectionOptions{
+        return{
+            type: 'mysql',
+            host: this.getEnvironment('DB_HOST'),
+            port: this.getNumberEnv('DB_PORT'),
+            database: this.getEnvironment('DB_DATABASE'),
+            username: this.getEnvironment('DB_USERNAME'),
+            password: this.getEnvironment('DB_PASSWORD'),
+            entities: [__dirname + "/../**/*.entity{.ts,.js}"],
+            migrations: [__dirname + "/../../migrations/*{.ts,.js}"],
+            synchronize: true,
+            logging: false,
+            namingStrategy: new SnakeNamingStrategy(),
+        }
     }
 }
