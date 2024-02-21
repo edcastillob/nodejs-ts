@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { ConnectionOptions } from 'typeorm';
+import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'; 
 
 export abstract class ConfigServer{
@@ -42,9 +42,20 @@ export abstract class ConfigServer{
             password: this.getEnvironment('DB_PASSWORD'),
             entities: [__dirname + "/../**/*.entity{.ts,.js}"],
             migrations: [__dirname + "/../../migrations/*{.ts,.js}"],
-            synchronize: true,
+            synchronize: false,
             logging: false,
             namingStrategy: new SnakeNamingStrategy(),
+        }
+    }
+
+    public async dbConnect(): Promise<Connection> {
+        try {
+            const connection = await createConnection(this.typeORMConfig);
+            console.log('Conexión a la base de datos establecida correctamente.');
+            return connection;
+        } catch (error) {
+            console.error('Error al conectar a la base de datos:', error);
+            throw error; 
         }
     }
 }
