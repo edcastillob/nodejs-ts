@@ -2,8 +2,6 @@ import { IsNotEmpty, IsOptional } from "class-validator";
 import { BaseDTO } from "../../config/base.dto";
 
 export class UserDTO extends BaseDTO {
-    @IsOptional()
-    id: string;
 
     @IsNotEmpty()
     username!: string;

@@ -6,7 +6,6 @@ export class UserController {
   async getUsers(req: Request, res: Response) {
     try {
       const data = await this._userService.findAllUser();
-      if(data.length === 0) return []
       return res.status(200).json(data);
     } catch (e) {
       console.error(e);
@@ -36,6 +35,12 @@ export class UserController {
     const { id } = req.params;
     try {
       const data = await this._userService.updateUser(id, req.body);
+      if (data.affected !== 0) {
+        const userUpdate = await this._userService.findUserById(id);
+        res.status(200).json({"User Updated: ": userUpdate}); 
+    } else {
+        res.status(404).json({ message: "Usuario no encontrado" }); 
+    }
       res.status(200).json(data)
     } catch (error) {
       console.log(error)   

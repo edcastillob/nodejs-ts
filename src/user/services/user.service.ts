@@ -9,7 +9,6 @@ export class UserService extends BaseService<UserEntity> {
   }
 
   async findAllUser(): Promise<UserEntity[]> {
-    console.log('service')
     return (await this.execRepository).find();
   }
 
